@@ -1,0 +1,58 @@
+<%- include('parts/head') %>
+<%- include('parts/nav') %>
+<div class="container">
+    <div class="row">
+        <div class="col col-sm-12 table-responsive">
+            <br><br>
+            <% if(items.length === 0){ %>
+                <p class="alert danger">
+                    There is no items
+                </p>
+            <% } else { %>
+            <% if(validationErrors){ %>
+                <p class="alert alert-danger">
+                    <%= validationErrors.msg %>
+                </p>
+            <% } %>
+        
+                <table class="table table-bordered responsive">
+                    <thead class="text-center pl-10">
+                        <td>no</td> 
+                        <td>product name</td>
+                        <td>price</td>
+                        <td>amount</td>
+                        <td>Total</td>
+                        <td>Save</td>
+                        <td>Order</td>
+                        <td>Delete</td>
+                    </thead>
+                    <tbody class="text-center pl-10">
+                        <% for(let i = 0 ; i < items.length ; i++){ %>
+                            <tr>
+                                <td> <%= i+1 %> </td>
+                                <td> <%= items[i].name %></td>
+                                <td> <%= items[i].price %></td>
+                                <form method="POST">
+                                    <td><input type="text" class="text-center" name="amount" class="form-control" value="<%= items[i].amount %>"></td> 
+                                    <td> <%= items[i].price * items[i].amount %> $ </td>
+                                    <input type="hidden" name="amount" value="<%= items[i].amount %>">
+                                    <input type="hidden" name="name" value="<%= items[i].name %>">
+                                    <input type="hidden" name="price" value="<%= items[i].price %>">
+                                    <input type="hidden" name="cartId" value="<%= items[i]._id %>">
+                                    <td><input type="submit" class="btn btn-success" value="Save" formaction="/cart/save"></td>
+                                    <td><input type="submit" class="btn btn-primary" value="Order" formaction="/verifyOrder"></td>
+                                    <td><input type="submit" class="btn btn-danger"  value="Delete" formaction="/cart/delete"></td>
+                                </form>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+                <form action="/cart/deleteAll" method="POST">
+                    <input type="submit" class="btn btn-danger" style="float: right;margin-left: 15px;"; value="Delete All">
+                </form>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<%- include('parts/footer') %>

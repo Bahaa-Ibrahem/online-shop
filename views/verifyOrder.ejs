@@ -1,0 +1,26 @@
+<%- include('parts/head') %>
+<%- include('parts/nav') %>
+
+<div class="container text-center" style="margin-top: 30px;">
+
+            <% if(validationErrors) { %>
+            <p class="alert alert-danger">
+                <%= validationErrors.msg %>
+            </p>
+            <% } %>
+
+                <div class="row text-center">
+                    <div class="col col-12 col-md-12">
+                        <form action="/order" method="POST" style="margin-top: 20px;"> 
+                            <input type="text" class="form-control" name="address" placeholder="Address">
+                            <input type="hidden" name="amount" value="<%= amount %>">
+                            <input type="hidden" name="name" value="<%= name %>">
+                            <input type="hidden" name="price" value="<%= price %>">
+                            <input type="hidden" name="cartId" value="<%= cartId %>">
+                            <input type="submit" value="Add to order" class="btn btn-primary" style="margin: 20px auto;display: flex;;justify-content: center;padding: 5px 20px;">
+                        </form>
+                    </div>
+                </div>
+    </div>
+
+<%- include('parts/footer') %>

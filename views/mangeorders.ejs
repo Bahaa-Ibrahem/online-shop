@@ -1,0 +1,71 @@
+<%- include('parts/head') %>
+<%- include('parts/nav') %>
+<div class="container">
+    <div class="row">
+        <div class="col col-sm-12 table-responsive">
+            <br><br>
+            <% if(orders.length === 0){ %>
+                <p class="alert danger">
+                    There is no orders
+                </p>
+            <% } else { %>
+            <% if(validationErrors) { %>
+            <p class="alert alert-danger">
+                <%= validationErrors.msg %>
+            </p>
+            <% } %>
+                <div class="row" style="margin-bottom: 15px;">
+                    <div class="col col-sm-3" style="margin-bottom: 15px;">
+                        <a href="/admin/orders/all" style="text-decoration: none;"><button class="btn btn-primary" style="display: block;margin: auto;width: 175px;">All</button></a>
+                    </div>
+                    <div class="col col-sm-3" style="margin-bottom: 15px;">
+                        <a href="/admin/orders/pending" style="text-decoration: none;"><button class="btn btn-primary" style="display: block;margin: auto;width: 175px;">Pending</button></a>
+                    </div>
+                    <div class="col col-sm-3" style="margin-bottom: 15px;">
+                        <a href="/admin/orders/sent" style="text-decoration: none;"><button class="btn btn-primary" style="display: block;margin: auto;width: 175px;">Sent</button></a>
+                    </div>
+                    <div class="col col-sm-3" style="margin-bottom: 15px;">
+                        <a href="/admin/orders/completed" style="text-decoration: none;"><button class="btn btn-primary" style="display: block;margin: auto;width: 175px;">Completed</button></a>
+                    </div>
+                </div>
+                <form action="/admin/orders/" method="POST">
+                    <input type="text" class="form-control" name="search" placeholder="email"><br>                
+                    <input type="submit" value="Search" class="btn btn-primary" style="width: 175px;">
+                </form>
+                <table class="table table-bordered table-responsive">
+                    <thead class="text-center pl-10">
+                        <td>no</td> 
+                        <td>Email</td>
+                        <td>P Name</td>
+                        <td>Amount</td>
+                        <td>Cost</td>
+                        <td>Address</td>
+                        <td>Status</td>
+                        <td>Time</td>
+                        <td>Save</td>
+                    </thead>
+                    <tbody class="text-center pl-10">
+                        <% for(let i = 0 ; i < orders.length ; i++){ %>
+                            <tr>
+                                <td> <%= i+1 %> </td>
+                                <td> <%= orders[i].email %></td>
+                                <td> <%= orders[i].name %></td>
+                                <td> <%= orders[i].amount %></td>
+                                <td> <%= orders[i].price * orders[i].amount %> $ </td>
+                                <td> <%= orders[i].address %></td>
+                                <form method="POST" action="/admin/orders/save">
+                                    <td><input type="text" class="text-center" name="status" class="form-control" value="<%= orders[i].status %>"></td> 
+                                    <td> <%= orders[i].timestamp %></td>
+                                    <input type="hidden" name="id" value="<%= orders[i]._id %>">
+                                    <td><input type="submit" class="btn btn-success" value="Save"></td>
+                                </form>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<%- include('parts/footer') %>
